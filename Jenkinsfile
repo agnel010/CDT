@@ -6,13 +6,13 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/Ryuk38/cms-test.git'
+                git branch: 'main', url: 'https://github.com/agnel010/CDT.git'
             }
         }
 
         stage('Build Image') {
             steps {
-                sh 'docker build -t my-cms-app .'
+                sh 'docker build -t my-cdt-app .'
             }
         }
 
