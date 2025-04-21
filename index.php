@@ -1,3 +1,40 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "CountDownTimer";
+$port = "3307";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $sql = "INSERT INTO users (username, password) 
+            VALUES ('$username', '$password')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>
+                alert('Signup successful!');
+                window.location.href='login.php';
+              </script>";
+    } else {
+        echo "<script>
+                alert('Error: " . $conn->error . "');
+                window.location.href='index.php';
+              </script>";
+    }
+}
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +49,6 @@
             font-family: "Inter", "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        /* Reset default input styles to prevent browser-specific borders and outlines */
         input {
             appearance: none;
             -webkit-appearance: none;
@@ -27,17 +63,17 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 0; /* Changed from 20px to 0 to prevent overflow */
+            padding: 0;
         }
 
         .outer-box {
             width: 100%;
-            height: 100vh; /* Ensures it takes full viewport height */
+            height: 100vh;
             position: relative;
-            overflow: hidden; /* Reverted to original overflow: hidden */
-            display: flex; /* Added to center inner-box */
-            justify-content: center; /* Added to center horizontally */
-            align-items: center; /* Added to center vertically */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .inner-box {
@@ -56,7 +92,7 @@
         }
 
         .inner-box:hover {
-            transform: scale(1.02); /* Removed translateY since outer-box now centers it */
+            transform: scale(1.02);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
         }
 
@@ -83,9 +119,8 @@
             position: relative;
         }
 
-        /* Target the <p> containing the password field specifically */
         .signup-body p:has(.password-container) {
-            margin-bottom: 0.25rem; /* Further reduced to minimize gap */
+            margin-bottom: 0.25rem;
         }
 
         .signup-body p label {
@@ -98,7 +133,7 @@
 
         .signup-body p input {
             width: 100%;
-            padding: 12px; 
+            padding: 12px;
             border: 1px solid #d6bcfa;
             border-radius: 8px;
             font-size: 1rem;
@@ -110,71 +145,66 @@
             line-height: normal;
         }
 
-        /* Style the placeholder text for consistency */
         .signup-body p input::placeholder {
             font-size: 1rem;
             font-family: "Inter", "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #666666; /* Changed from #bdbdbd to a darker gray */
+            color: #666666;
             opacity: 1;
             font-weight: 400;
             letter-spacing: normal;
             text-transform: none;
         }
 
-        /* Ensure Webkit browsers (Chrome, Safari) render placeholders consistently */
         .signup-body p input::-webkit-input-placeholder {
             font-size: 1rem;
             font-family: "Inter", "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #666666; /* Changed from #bdbdbd to a darker gray */
+            color: #666666;
             opacity: 1;
             font-weight: 400;
             letter-spacing: normal;
             text-transform: none;
         }
 
-        /* Ensure Firefox renders placeholders consistently */
         .signup-body p input::-moz-placeholder {
             font-size: 1rem;
             font-family: "Inter", "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #666666; /* Changed from #bdbdbd to a darker gray */
+            color: #666666;
             opacity: 1;
             font-weight: 400;
             letter-spacing: normal;
             text-transform: none;
         }
 
-        /* Ensure Microsoft Edge renders placeholders consistently */
         .signup-body p input::-ms-input-placeholder {
             font-size: 1rem;
             font-family: "Inter", "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #666666; /* Changed from #bdbdbd to a darker gray */
+            color: #666666;
             opacity: 1;
             font-weight: 400;
             letter-spacing: normal;
             text-transform: none;
         }
 
-        /* Specifically target the password input placeholder to override browser defaults */
         .password-container input::placeholder {
-            color: #666666 !important; /* Changed from #bdbdbd to a darker gray */
+            color: #666666 !important;
             opacity: 1 !important;
             font-weight: 400 !important;
         }
 
         .password-container input::-webkit-input-placeholder {
-            color: #666666 !important; /* Changed from #bdbdbd to a darker gray */
+            color: #666666 !important;
             opacity: 1 !important;
             font-weight: 400 !important;
         }
 
         .password-container input::-moz-placeholder {
-            color: #666666 !important; /* Changed from #bdbdbd to a darker gray */
+            color: #666666 !important;
             opacity: 1 !important;
             font-weight: 400 !important;
         }
 
         .password-container input::-ms-input-placeholder {
-            color: #666666 !important; /* Changed from #bdbdbd to a darker gray */
+            color: #666666 !important;
             opacity: 1 !important;
             font-weight: 400 !important;
         }
@@ -182,7 +212,6 @@
         .signup-body p input:focus {
             outline: none !important;
             border-color: #b794f4;
-            box-shadow: 0 0 0 3pxDashed;
             box-shadow: 0 0 0 3px rgba(183, 148, 244, 0.3);
         }
 
@@ -193,7 +222,7 @@
             cursor: pointer;
             font-weight: 500;
             padding: 12px;
-            margin-top: 0.5rem; /* Reduced from 1rem to further close the gap */
+            margin-top: 0.5rem;
             transition: all 0.3s ease;
             height: auto;
         }
@@ -280,9 +309,6 @@
             line-height: 1;
             pointer-events: auto;
         }
-        placeholder {
-            color: rgb(0, 0, 0);
-        }
     </style>
 </head>
 <body>
@@ -293,7 +319,7 @@
                 <p>It just takes 30 seconds</p>
             </header>
             <main class="signup-body">
-                <form action="index_process.php" method="POST">
+                <form action="index.php" method="POST">
                     <p>
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username" placeholder="Enter your username" required>
