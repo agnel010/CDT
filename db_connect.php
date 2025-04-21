@@ -1,12 +1,11 @@
 <?php
-$servername = "localhost"; 
+$servername = "my-mysql"; 
 $username = "root"; 
 $password = "root"; 
 $database = "CountDownTimer"; 
-$port = 3307; // Port should be an integer, not a string
 
 // Create connection with correct parameter order
-$conn = new mysqli($servername, $username, $password, $database, $port);
+$conn = new mysqli($servername, $username, $password, $database);
 
 // Check for connection errors
 if ($conn->connect_error) {
