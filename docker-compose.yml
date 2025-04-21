@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  cms:
+  cdt:
     build: .
     ports:
       - "8085:80"
     networks:
-      - cms-network
+      - cdt-network
    
 networks:
-  cms-network:
+  cdt-network:
     external: true
     
