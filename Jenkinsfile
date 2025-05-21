@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HOST = 'tcp://host.docker.internal:2375' // Docker daemon for Jenkins
+        DOCKER_HOST = 'tcp://host.docker.internal:2375' // For Docker access from Jenkins
     }
 
     stages {
@@ -18,16 +18,16 @@ pipeline {
             }
         }
 
-        stage('Run Containers') {
+        stage('Run App Container') {
             steps {
                 sh 'docker-compose -f docker-compose.yml up -d --build'
             }
         }
 
-        stage('Wait for App') {
+        stage('Wait for App to be Ready') {
             steps {
-                echo 'Waiting for app to start...'
-                sh 'sleep 15' // Or use curl loop to check readiness
+                echo 'Waiting for app to be ready...'
+                sh 'sleep 15' // You can replace with curl check later
             }
         }
 
@@ -43,7 +43,7 @@ pipeline {
 
     post {
         always {
-            echo 'Stopping and removing containers...'
+            echo 'Cleaning up containers...'
             sh 'docker-compose down'
         }
     }
