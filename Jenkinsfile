@@ -27,7 +27,16 @@ pipeline {
         stage('Wait for App to be Ready') {
             steps {
                 echo 'Waiting for app to be ready...'
-                sh 'sleep 15' // You can replace with curl check later
+                sh '''
+                    for i in {1..10}; do
+                      if curl -s http://localhost:8085 > /dev/null; then
+                        echo "App is up!"
+                        break
+                      fi
+                      echo "Waiting..."
+                      sleep 3
+                    done
+                '''
             }
         }
 
@@ -35,7 +44,7 @@ pipeline {
             steps {
                 sh '''
                     docker build -f Dockerfile.selenium -t selenium-runner .
-                    docker run --rm selenium-runner
+                    docker run --rm --network cdt-network selenium-runner
                 '''
             }
         }
