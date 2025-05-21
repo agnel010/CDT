@@ -1,16 +1,17 @@
 FROM node:18
 
-# Install Selenium Side Runner and Chrome dependencies
+# Install Chrome dependencies and Chrome
 RUN apt-get update && apt-get install -y wget unzip xvfb curl gnupg \
     && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && apt install -y ./google-chrome-stable_current_amd64.deb \
+    && rm google-chrome-stable_current_amd64.deb \
     && npm install -g selenium-side-runner chromedriver
 
-# Copy your Selenium test file
+# Copy Selenium test file
 COPY CountDownTimer.side /tests/
 
 # Set working directory
 WORKDIR /tests
 
-# Run Selenium tests pointing to your app
-CMD ["selenium-side-runner", "--server", "http://host.docker.internal:8085", "CountDownTimer.side"]
+# Run Selenium tests (use internal Docker service name instead of host.docker.internal)
+CMD ["selenium-side-runner", "--server", "http://cdt:80", "CountDownTimer.side"]
